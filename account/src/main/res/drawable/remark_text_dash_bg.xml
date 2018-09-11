@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- 描边:虚线 -->
+    <stroke
+        android:dashGap="1dp"
+        android:dashWidth="2dp"
+        android:width="1dp"
+        android:color="@color/color_dash" />
+    <!-- 填充颜色 -->
+    <solid android:color="@color/colorTextWhite"/>
+    <!-- 圆角 -->
+    <corners android:radius="5dp"/>
+    <padding
+        android:top="7dp"
+        android:bottom="7dp"
+        android:right="12dp"
+        android:left="12dp"/>
+</shape>

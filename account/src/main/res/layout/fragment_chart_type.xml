@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_dettail"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorTextChartTabSelect"
+        app:tabTextColor="@color/colorTextChartTabNormal"
+        app:tabIndicatorColor="@color/colorGreenChart"
+        app:tabIndicatorHeight="1dp">
+    </android.support.design.widget.TabLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextChartTabNormal"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/lin_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <include layout="@layout/layout_bill_empty"/>
+        <include layout="@layout/item_chart_count_header"/>
+        <include layout="@layout/rv_empty_bill"/>
+    </LinearLayout>
+
+</LinearLayout>

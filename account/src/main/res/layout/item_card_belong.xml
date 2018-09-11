@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/item_bill"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/itemLinHeight"
+                android:clickable="true"
+                android:background="@drawable/ripple_item_white_bg">
+
+    <ImageView
+        android:id="@+id/iv_bank"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/icon_bank_gd"/>
+
+
+    <TextView
+        android:id="@+id/tv_bank_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/iv_bank"
+        android:layout_centerVertical="true"
+        android:text="银行"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="14sp"/>
+
+
+    <ImageView
+        android:id="@+id/iv_bank_checked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="22dp"
+        android:src="@drawable/icon_bank_belong_select"
+        android:visibility="invisible"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/mainBg"/>
+</RelativeLayout>

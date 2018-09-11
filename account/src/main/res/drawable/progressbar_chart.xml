@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 背景颜色 -->
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="12dp"/>
+            <!-- 设置背景的颜色，将startColor、centerColor、endColor都设置成同一个颜色值 -->
+            <!--
+                 如果你不用颜色值也可以，可以直接用图片来代替，在item中添加这个属性就可以了，其他的不需要
+                 android:drawable="@drawable/progressbar_bg"
+            -->
+            <gradient
+                android:angle="360"
+                android:endColor="#f1f1f1"
+                android:startColor="#f1f1f1"/>
+        </shape>
+    </item>
+    <!-- 这个是第二进度条的颜色，没用到 -->
+    <!--<item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <corners android:radius="5dip" />
+
+                <gradient
+                    android:angle="270"
+                    android:centerColor="#80C07AB8"
+                    android:centerY="0.75"
+                    android:endColor="#a0C07AB8"
+                    android:startColor="#80C07AB8" />
+            </shape>
+        </clip>
+    </item>-->
+    <!-- 设置进度的颜色 -->
+    <item android:id="@android:id/progress">
+        <scale android:scaleWidth="100%">
+            <shape>
+                <!-- 这个也是设置时圆角还是直角，左边的 -->
+                <corners android:radius="12dp"/>
+                <!-- 设置进度的颜色，将startColor、centerColor、endColor都设置成同一个颜色值 -->
+                <gradient
+                    android:angle="360"
+                    android:endColor="#ff8246"
+                    android:startColor="#febfa1"/>
+            </shape>
+        </scale>
+    </item>
+</layer-list>

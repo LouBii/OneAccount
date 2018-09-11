@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@android:color/transparent"
+                android:id="@+id/item_classify">
+
+
+    <ImageView
+        android:id="@+id/iv_classify"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/classify_eat"/>
+
+
+    <ImageView
+        android:id="@+id/iv_checked"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@id/iv_classify"
+        android:layout_alignRight="@id/iv_classify"
+        android:layout_marginRight="-2dp"
+        android:layout_marginBottom="-2dp"
+        android:src="@drawable/ic_user_define_select"/>
+</RelativeLayout>

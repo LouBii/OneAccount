@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_card"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:background="@drawable/lin_card_bg_red"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_bandcard"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/icon_rbank_bj"
+        />
+
+    <TextView
+        android:id="@+id/tv_bandcard_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:text="招商银行"
+        android:textColor="@color/colorTextWhite"
+        android:layout_alignTop="@+id/iv_bandcard"
+        android:layout_toRightOf="@+id/iv_bandcard"
+        android:layout_toEndOf="@+id/iv_bandcard"
+        android:layout_marginLeft="15dp"/>
+    <TextView
+        android:id="@+id/tv_bandcard_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:text="储蓄卡"
+        android:textColor="@color/colorTextWhite"
+        android:layout_toRightOf="@+id/iv_bandcard"
+        android:layout_toEndOf="@+id/iv_bandcard"
+        android:layout_below="@id/tv_bandcard_name"
+        android:layout_marginLeft="15dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_bandcard_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="****  ****  ****  5552"
+        android:textColor="@color/colorTextWhite"
+        android:layout_toRightOf="@+id/iv_bandcard"
+        android:layout_toEndOf="@+id/iv_bandcard"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"/>
+
+
+    <TextView
+        android:id="@+id/tv_transfer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="11dp"
+        android:paddingLeft="11dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="21dp"
+        android:layout_alignTop="@id/tv_bandcard_name"
+        android:background="@drawable/text_card_bg"
+        android:textSize="14sp"
+        android:textColor="@color/colorTextWhite"
+        android:text="转账"/>
+    
+    <ImageView
+        android:id="@+id/iv_alarm"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/alarm_on"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="34dp"
+        android:layout_alignTop="@id/tv_bandcard_id"/>
+</RelativeLayout>

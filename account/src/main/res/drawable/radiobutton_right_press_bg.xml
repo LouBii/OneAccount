@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- 填充的颜色 -->
+    <solid android:color="@color/colorTextWhite"/>
+    <corners android:topRightRadius="5dp"
+        android:bottomRightRadius="5dp"/>
+</shape>

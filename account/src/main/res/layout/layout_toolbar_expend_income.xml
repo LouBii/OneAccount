@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorPrimary">
+
+    <FrameLayout
+        android:id="@+id/ll_title_return"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_toolbar_left"/>
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_type"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:checkedButton="@+id/rb_expend">
+
+        <RadioButton
+            android:id="@+id/rb_expend"
+            style="@style/RadioButton"
+            android:background="@drawable/radiobutton_left_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/expend"
+            android:textColor="@drawable/radiobutton_text_select"/>
+
+        <RadioButton
+            android:id="@+id/rb_income"
+            style="@style/RadioButton"
+            android:background="@drawable/radiobutton_right_select"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/income"
+            android:textColor="@drawable/radiobutton_text_select"/>
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/ll_title_contract"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_toolbar_contract"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="15dp"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="15sp"
+        android:text="@string/toolbar_sort"
+        android:visibility="gone"/>
+</RelativeLayout>

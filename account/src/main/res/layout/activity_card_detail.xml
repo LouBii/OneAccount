@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.loubii.account.ui.card.CardDetailActivity">
+
+    <com.loubii.account.view.BaseToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:theme="@style/ToolbarStyle">
+    </com.loubii.account.view.BaseToolbar>
+
+    <include layout="@layout/item_card"/>
+
+    <TextView
+        android:id="@+id/tv_card_depost_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.3"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextCardAddEdittext"
+        android:text="@string/card_detail_deposit"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/lin_card_credit_describe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="13dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/colorBgSticky"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="15dp"
+            android:textSize="16dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/card_detail_credit_info"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f1eeff"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <TextView
+                android:id="@+id/tv_repay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/card_detail_credit_repay"/>
+            <TextView
+                android:id="@+id/tv_repay_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textSize="14dp"
+                android:textColor="#7f7c93"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tv_repay"
+                android:background="#f1eeff"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <TextView
+                android:id="@+id/tv_outaccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/card_detail_credit_outaccount"/>
+            <TextView
+                android:id="@+id/tv_outaccount_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textSize="14dp"
+                android:textColor="#7f7c93"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/tv_outaccount"
+                android:background="#f1eeff"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+            <TextView
+                android:id="@+id/tv_total_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:textSize="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/card_detail_credit_total_limit"/>
+            <EditText
+                android:id="@+id/et_total_limit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/hint_input_credit_limit"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="15dp"
+                android:textSize="14dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

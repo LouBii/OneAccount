@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <include layout="@layout/layout_toolbar_expend_income"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextChartTabNormal"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_classify"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:drawableRight="@drawable/pull_down"
+            android:drawablePadding="10dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextChartTabSelect"
+            android:text="@string/all"
+            />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_year_month"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:tabSelectedTextColor="@color/colorTextChartTabSelect"
+                app:tabTextColor="@color/colorTextChartTabNormal"
+                app:tabIndicatorHeight="0dp">
+            </android.support.design.widget.TabLayout>
+
+            <com.loubii.account.view.SliderLayout
+                android:id="@+id/slider_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.loubii.account.view.SliderLayout>
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorTextChartTabNormal"/>
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/tab_period"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="40dp">-->
+    <!--</android.support.design.widget.TabLayout>-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

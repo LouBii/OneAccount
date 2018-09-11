@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/mainBg"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rel_reset_bypsw"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemCardAddHeight"
+        android:background="@color/colorTextWhite"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="银行卡号"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"/>
+
+        <com.loubii.account.view.BankCardEditText
+            android:id="@+id/et_card_id"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/card_add_item_margin_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="@string/hint_input_bank_card"
+            android:maxLength="25"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="15dp"
+            android:textColor="@color/colorTextCardAddEdittext"
+            android:inputType="number"
+            android:layout_centerVertical="true"
+            android:focusableInTouchMode="true"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/mainBg" />
+
+    <RelativeLayout
+        android:id="@+id/rel_choose_bank"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemCardAddHeight"
+        android:background="@drawable/ripple_item_white_bg"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/card_add_belong_bank"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_card_belong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/card_add_item_margin_right"
+            android:text="@string/card_add_choose_belong_bank"
+            android:textColor="@color/colorTextHint"
+            android:textSize="15dp" />
+
+        <ImageView
+            android:id="@+id/iv_card"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/tv_card_belong"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemCardAddHeight"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorTextWhite"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/card_add_type"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_card_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/card_add_item_margin_right"
+            android:text="储蓄卡"
+            android:textColor="@color/colorTextCardAddEdittext"
+            android:textSize="15dp" />
+
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_right" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemCardAddHeight"
+        android:background="@color/colorTextWhite"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/card_add_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp" />
+
+        <com.loubii.account.view.DeleteEditText
+            android:id="@+id/et_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/card_add_item_margin_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="@string/hint_input_name"
+            android:maxLength="10"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="15dp"
+            android:textColor="@color/colorTextCardAddEdittext"
+            android:layout_centerVertical="true"
+            android:focusableInTouchMode="false"
+            />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:background="@color/mainBg" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemCardAddHeight"
+        android:background="@color/colorTextWhite"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/identity_card"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <com.loubii.account.view.DeleteEditText
+            android:id="@+id/et_peopleid"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/card_add_item_margin_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="@string/hint_input_identity"
+            android:maxLength="18"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="15sp"
+            android:textColor="@color/colorTextCardAddEdittext"
+            android:layout_centerVertical="true"
+            android:inputType="number"
+            android:focusableInTouchMode="false"
+            />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="30dp"
+        android:background="@color/mainBg" />
+
+
+</LinearLayout>

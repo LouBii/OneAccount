@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3f3c51</color>
+    <color name="colorPrimaryDark">#3f3c51</color>
+    <color name="colorAccent">#3f3c51</color>
+    <!--主背景颜色-->
+    <color name="mainBg">#fbf9ff</color>
+    <!--白色文字-->
+    <color name="colorTextWhite">#fff</color>
+    <!--账单总览深色文字-->
+    <color name="colorTextBillAllDark">#918f9c</color>
+    <!--黑色文字-->
+    <color name="colorTextBlack">#3f2c51</color>
+    <!--黑色浅色文字-->
+    <color name="colorTextBlackLight">#7e7d86</color>
+
+    <!--顶部悬浮背景-->
+    <color name="colorBgSticky">#fbf9ff</color>
+    <!--顶部悬浮文字-->
+    <color name="colorTextSticky">#6c6980</color>
+    <!--左滑删除红色背景-->
+    <color name="colorBgSwipeDelete">#ff5363</color>
+
+    <!--Lin或者Rel条目文字背景-->
+    <color name="colorTextLinItem">#3f3f51</color>
+    <!--分割线背景-->
+    <color name="colorViewBg">#f3f0ff</color>
+
+    <color name="colorDividerAddRemark">#d5d4de</color>
+
+    <!--红色文字-->
+    <color name="colorTextRed">#ff5363</color>
+
+    <!--viewpager文字灰色-->
+    <color name="colorTextPagerGray">#949494</color>
+    <!--自定义键盘分割线颜色-->
+    <color name="colorKeyboardDivider">#312f3f</color>
+    <color name="colorKeyboardPress">#504c66</color>
+
+    <color name="colorTextAddRemark">#b7b5c3</color>
+    <color name="colorTextHint">#b7b5c3</color>
+
+    <color name="colorRemarkDialogBgPress">#d9d7d7</color>
+
+    <color name="colorRemarkDialogBgNormal">#f1f1f1</color>
+
+
+    <color name="indicator_bg">#cdcdcd</color>
+
+
+    <color name="white40">#40ffffff</color>
+
+    <color name="color_dash">#cecece</color>
+
+    <color name="colorGreen">#24c789</color>
+    <color name="itemBackground">#dde9e9e9</color>
+    <color name="colorTextCardAddEdittext">#837f8c</color>
+
+    <color name="colorTextChartTabSelect">#a9a6b8</color>
+    <color name="colorTextChartTabNormal">#4f4d5e</color>
+    <color name="colorTextChartDescribe">#c9c7d3</color>
+    <color name="colorGreenChart">#11a06a</color>
+    <color name="colorTextContract">#e1dfed</color>
+</resources>

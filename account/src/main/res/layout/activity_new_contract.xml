@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#49465a"
+    tools:context="com.loubii.account.ui.avtivity.NewContractActivity">
+
+    <include layout="@layout/layout_toolbar_header_title"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="14dp"
+        android:textColor="@color/colorTextContract"
+        android:text="契约时长"/>
+    <EditText
+        android:id="@+id/et_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/conor_edtttext_contract"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="13dp"
+        android:textColor="@color/colorTextContract"
+        android:hint="@string/hint_input_contract_time"
+        android:textColorHint="#625e76"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="14dp"
+        android:textColor="@color/colorTextContract"
+        android:text="契约金"/>
+    <EditText
+        android:id="@+id/et_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/conor_edtttext_contract"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textSize="13dp"
+        android:textColor="@color/colorTextContract"
+        android:hint="@string/hint_input_contract_count"
+        android:textColorHint="#625e76"/>
+
+    <Button
+        android:id="@+id/bt_finish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/conor_button_green"
+        android:textSize="18dp"
+        android:textColor="@color/colorTextWhite"
+        android:text="@string/finish"/>
+</LinearLayout>

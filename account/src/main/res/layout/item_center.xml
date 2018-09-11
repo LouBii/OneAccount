@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="48dp">
+
+    <ImageView
+        android:id="@+id/iv_center"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/classify_baby"/>
+
+    <TextView
+        android:id="@+id/tv_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_center"
+        android:layout_marginLeft="16dp"
+        android:textSize="15sp"
+        android:textColor="@color/colorPrimary"
+        android:text="我的"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:src="@drawable/me_arrow_right"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/tv_center"
+        android:background="@color/colorViewBg"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

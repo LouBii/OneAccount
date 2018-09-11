@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AbsLeafChart">
+
+        <attr name="lc_topPadding" format="dimension"/>
+        <attr name="lc_leftPadding" format="dimension"/>
+        <attr name="lc_bottomPadding" format="dimension"/>
+        <attr name="lc_rightPadding" format="dimension"/>
+
+        <attr name="lc_startMarginX" format="dimension"/>
+        
+        <attr name="lc_startMarginY" format="dimension"/>
+        
+        <attr name="lc_coordinateMode">
+            <enum name="across" value="1"/>
+            <enum name="intersect" value="2"/>
+            <enum name="x_across" value="3"/>
+            <enum name="y_across" value="4"/>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="OutsideLineChart">
+        <attr name="lc_step" format="dimension"/>
+    </declare-styleable>
+
+</resources>

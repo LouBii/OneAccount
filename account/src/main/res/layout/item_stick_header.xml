@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+    android:gravity="center_vertical"
+    android:background="@color/colorBgSticky">
+
+    <TextView
+        android:id="@+id/tv_sticky_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextSticky"
+        android:text="817"/>
+
+    <TextView
+        android:id="@+id/tv_sticky_week"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_sticky_day"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextSticky"
+        android:text="星期几"/>
+
+    <TextView
+        android:id="@+id/tv_sticky_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextSticky"
+        android:text="收入"/>
+
+    <TextView
+        android:id="@+id/tv_sticky_expend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tv_sticky_income"
+        android:layout_marginRight="10dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextSticky"
+        android:text="支出"/>
+
+
+</RelativeLayout>

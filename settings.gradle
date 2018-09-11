@@ -1,0 +1,7 @@
+include ':app', ':account', ':sample', ':bottom-navigation-bar', ':test', ':hwtest', ':baichuan', ':libraryHttp'
+include ':library:xrecyclerview'
+include ':library:zoomlibrary'
+include ':library:http'
+include ':library:pickerview'
+include ':library:calendarLibrary'
+include ':library:leafchart'

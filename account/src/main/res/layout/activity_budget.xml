@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/mainBg"
+    android:animateLayoutChanges="true"
+    tools:context="com.loubii.account.ui.avtivity.BudgetActivity">
+
+    <include layout="@layout/layout_toolbar_header_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorTextWhite"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextLinItem"
+            android:text="@string/budget_open"/>
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            app:sb_show_indicator="false"/>
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorViewBg"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_budget"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@color/colorTextWhite"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextLinItem"
+            android:text="@string/budget_account"/>
+
+        <EditText
+            android:id="@+id/et_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@null"
+            android:inputType="number"
+            android:maxLength="9"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextLinItem"
+            android:hint="@string/hint_not_setting"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_budget_describe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="3dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextSticky"
+        android:text="@string/budget_describe"
+        android:visibility="gone"/>
+</LinearLayout>

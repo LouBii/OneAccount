@@ -1,0 +1,92 @@
+<resources>
+    <string name="app_name">钱小猪</string>
+    <string name="tab_name_bill">账单</string>
+    <string name="tab_name_chart">图表</string>
+    <string name="tab_name_add">记账</string>
+    <string name="tab_name_card">卡包</string>
+    <string name="tab_name_me">我的</string>
+
+
+    <string name="expend">支出</string>
+    <string name="income">收入</string>
+
+    <string name="delete">删除</string>
+    <string name="budget_open">开启消费预算</string>
+    <string name="budget_close">关闭消费预算</string>
+    <string name="budget_account">消费预算金额</string>
+    <string name="budget_describe">开启预算，首页呈现预算余额模式 (预算余额 = 预算金额 - 当月支出)</string>
+    <string name="hint_not_setting">未设置</string>
+    <string name="hint_edit_money">¥ 0.00</string>
+    <string name="hint_add_remark">备注：说点什么吧</string>
+    <string name="hint_input_classify">请输入分类名称</string>
+
+    <string name="toolbar_sort">排序</string>
+    <string name="sort_long_click">长按排序或删除</string>
+
+    <string name="card_my">我的银行卡</string>
+    <string name="add_deposit">添加储蓄卡</string>
+    <string name="add_crediit">添加信用卡</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--添加银行卡-->
+    <string name="card_add_tips">*请您绑定一张主卡进行实名认证，主卡必须为储蓄卡。</string>
+    <string name="card_add_belong_bank">所属银行</string>
+    <string name="card_add_choose_belong_bank">请选择所属银行</string>
+    <string name="card_add_type">卡种</string>
+    <string name="identity_card">身份证号</string>
+    <string name="hint_input_bank_card">请输入银行卡号</string>
+    <string name="hint_input_name">请输入姓名</string>
+    <string name="card_add_name">持卡人</string>
+    <string name="hint_input_identity">请输入身份证号</string>
+    <string name="card_add_refund">还款日</string>
+    <string name="hint_input_refund">请输入还款日，如：02</string>
+    <string name="card_add_charge_off">出账日</string>
+    <string name="hint_input_charge_off">请输入出账日，如：15</string>
+    <string name="card_add_limit">总额度</string>
+    <string name="hint_input_limit">请输入信用卡总额度(选填项)</string>
+    <string name="card_add_phone_num">银行预留手机号</string>
+    <string name="hint_input_phone_num">请输入银行预留手机号</string>
+    <string name="next">下一步</string>
+    <string name="service_agreement">《服务协议》</string>
+    <string name="read_agreement">我已阅读并同意</string>
+
+    <string name="receive_account">收款账户</string>
+    <string name="transfer_account">转账金额</string>
+    <string name="hint_input_transfer_account">请输入转账金额</string>
+    <string name="botton_transfer">确认转出</string>
+    <string name="tips_transfer_service">
+        温馨提示\n
+        · 单笔提金额为500 - 1000元\n
+        · 单笔手续交易费为6‰</string>
+    <string name="all">全部</string>
+    <string name="chart_account_total">累计记账</string>
+    <string name="chart_account_max">单笔最大金额</string>
+    <string name="current_balance">当前余额(元)</string>
+    <string name="balance_tixian">提现至微信</string>
+    <string name="card_detail_deposit">温馨提示：\n
+    · 每个账户只能绑定一张储蓄卡\n
+    · 绑定后该卡只能最为到账银行卡\n
+    · 如需换卡，只能更换该持卡人名下的储蓄卡\n
+    · 如有疑问，请致电客服热线：</string>
+    <string name="card_detail_credit_info">信用卡信息</string>
+    <string name="card_detail_credit_repay">还款日期</string>
+    <string name="card_detail_credit_outaccount">出账日期</string>
+    <string name="card_detail_credit_total_limit">总 额 度</string>
+    <string name="hint_input_credit_limit">请输入信用卡额度</string>
+    <string name="remind_open">开启提醒</string>
+    <string name="remind_period">提醒周期</string>
+    <string name="vibrate">震动</string>
+    <string name="sound">声音</string>
+    <string name="remind_account">记账提醒</string>
+    <string name="remind_credit">信用卡提醒</string>
+    <string name="remind_timer">提醒时间</string>
+    <string name="remind_content">提醒内容</string>
+    <string name="hint_remind_content">朋友圈是秀给别人看的，账单才是给自己看的，今天别忘了记账呦~</string>
+    <string name="hint_input_contract_time">请输入契约时长</string>
+    <string name="hint_input_contract_count">请输入您要支付的契约金(不少于1元)</string>
+    <string name="finish">完成</string>
+    <string name="rv_empty_no_bill">无账单记录</string>
+    <string name="text_bill_empty">您的账单之旅还没开始\n暂无数据~</string>
+</resources>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mainBg"
+    tools:context="com.loubii.account.ui.avtivity.AccountRemindActivity">
+
+    <include layout="@layout/layout_toolbar_header_title"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_account_remind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

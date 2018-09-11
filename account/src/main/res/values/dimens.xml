@@ -1,0 +1,10 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">15dp</dimen>
+    <dimen name="activity_vertical_margin">15dp</dimen>
+    <dimen name="title_right_margin">15dp</dimen>
+    <dimen name="card_add_item_margin_right">30dp</dimen>
+    <dimen name="itemLinHeight">49dp</dimen>
+    <dimen name="itemCardAddHeight">40dp</dimen>
+    <dimen name="item_card">111dp</dimen>
+</resources>

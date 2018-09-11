@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mainBg"
+    tools:context="com.loubii.account.ui.card.TransferActivity">
+
+    <include layout="@layout/layout_toolbar_header_title"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemLinHeight"
+        android:background="@color/colorTextWhite"
+        android:layout_marginTop="13dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_receive_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/receive_account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_receive_account"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            tools:text="@string/receive_account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            tools:text="@string/receive_account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_phone_num"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/itemLinHeight"
+        android:layout_marginTop="13dp"
+        android:background="@color/colorTextWhite"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_transfer_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/transfer_account"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15dp" />
+        <com.loubii.account.view.DeleteEditText
+            android:id="@+id/et_transfer_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/tv_transfer_account"
+            android:layout_marginLeft="15dp"
+            android:paddingRight="@dimen/card_add_item_margin_right"
+            android:background="@null"
+            android:gravity="right|center_vertical"
+            android:hint="@string/hint_input_transfer_account"
+            android:maxLength="11"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="15sp"
+            android:textColor="@color/colorTextCardAddEdittext"
+            android:layout_centerVertical="true"
+            android:inputType="number"
+            android:focusableInTouchMode="false"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_tips_service_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="11dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextBlackLight"
+        android:text="*当前手续费为"/>
+
+    <Button
+        android:id="@+id/bt_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="28dp"
+        android:text="@string/botton_transfer"
+        android:textColor="@color/colorTextWhite"
+        android:textSize="18sp"
+        android:background="@drawable/conor_button_green"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.3"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:textSize="11sp"
+        android:textColor="@color/colorTextBlackLight"
+        android:text="@string/tips_transfer_service"/>
+    
+</LinearLayout>
