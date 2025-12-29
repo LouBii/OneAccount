@@ -27,6 +27,7 @@ public class BillAdapter extends UltimateViewAdapter {
 
     private List<AccountModel> mAccountList;
     private OnItemClickListener mItemClickListener;
+    private OnItemLongClickListener mItemLongClickListener;
 
     public BillAdapter(List<AccountModel> mAccountList) {
         this.mAccountList = mAccountList;
@@ -39,7 +40,6 @@ public class BillAdapter extends UltimateViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder newHeaderHolder(View view) {
-
         return new UltimateRecyclerviewViewHolder<>(view);
     }
 
@@ -139,6 +139,25 @@ public class BillAdapter extends UltimateViewAdapter {
         this.mItemClickListener = listener;
     }
 
+    public interface OnItemLongClickListener {
+        /**
+         * 长按Item的回调
+         * @param view 被长按的View
+         * @param position 被长按的项的位置
+         * @return 是否消费了此次事件
+         */
+        boolean onItemLongClick(View view, int position);
+    }
+
+    /**
+     * 设置Item长按监听
+     * @param listener
+     */
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.mItemLongClickListener = listener;
+    }
+
+
     class ItemHoleder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
 
         ImageView ivClassify;
@@ -156,14 +175,28 @@ public class BillAdapter extends UltimateViewAdapter {
             tvClassifyMoney = (TextView) itemView.findViewById(R.id.tv_classify_money);
             itemBill = itemView.findViewById(R.id.item_bill);
             itemView.setOnClickListener(this);
+
+            itemBill.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // 获取位置并回调
+                    int position = (int) itemView.getTag(); // 使用和 onClick 相同的方式获取位置
+                    if (mItemLongClickListener != null) {
+                        // 将事件传递给外部监听器，并返回其结果
+                        return mItemLongClickListener.onItemLongClick(v, position);
+                    }
+                    // 如果未设置长按监听器，则不消费事件
+                    return false;
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             mItemClickListener.onItemClick(v, (int) v.getTag());
         }
-    }
 
+    }
 
     class HeaderHoleder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
 
@@ -185,6 +218,7 @@ public class BillAdapter extends UltimateViewAdapter {
         public void onClick(View v) {
             mItemClickListener.onItemClick(v, (int) v.getTag());
         }
+
     }
 
 

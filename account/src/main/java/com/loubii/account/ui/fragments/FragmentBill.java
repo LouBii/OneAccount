@@ -1,9 +1,12 @@
 package com.loubii.account.ui.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import com.google.android.material.appbar.AppBarLayout;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +45,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * 账单
@@ -173,6 +177,15 @@ public class FragmentBill extends BaseEventFragment {
                 intent.putExtra(Extra.ACCOUNT_DATE, mCurrentDate.getTime());
                 getActivity().startActivity(intent);
                 //ToastUtil.showShort(getActivity(), position + "");
+            }
+        });
+        // 2. 【新增】设置长按监听
+        mBillAdapter.setOnItemLongClickListener(new BillAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(View v, int position) {
+                AccountModel item = mAccountList.get(position);
+                showOperationDialog(item, position); // 调用一个显示对话框的方法
+                return true; // 返回 true 表示已消费此次长按事件，这样可以阻止后续的点击事件被触发
             }
         });
 
@@ -329,5 +342,32 @@ public class FragmentBill extends BaseEventFragment {
             changeList(0);
             setTitleView();
         }
+    }
+
+    // 弹窗示例方法
+    private void showOperationDialog(final AccountModel item, final int position) {
+        String[] options = new String[]{"编辑", "删除"};
+        new AlertDialog.Builder(requireActivity())
+                .setTitle("操作")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: // 编辑
+//                                editBill(item);
+                                break;
+                            case 1: // 删除
+                                // 从数据源移除
+                                mDbManager.deleteByKey(item.getId());
+                                mAccountList.remove(position);
+                                // 通知适配器更新（如果你使用的是 UltimateRecyclerView 的特定方法，可能需要调整）
+                                mBillAdapter.notifyItemRemoved(position);
+                                // 注意：如果还有粘性头部，可能需要更复杂的更新逻辑
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 }
