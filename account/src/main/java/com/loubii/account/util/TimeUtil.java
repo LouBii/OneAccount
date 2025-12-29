@@ -2,6 +2,13 @@ package com.loubii.account.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.temporal.IsoFields;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,27 +20,27 @@ public class TimeUtil {
     public static String[] WEEK = {"周天", "周一", "周二", "周三", "周四", "周五", "周六"};
     public static final int WEEKDAYS = 7;
 
-    /**
-     * 获取前n天日期、后n天日期
-     *
-     * @param distanceDay 前几天 如获取前7天日期则传-7即可；如果后7天则传7
-     * @return
-     */
-    public static String getLastDateStr(int distanceDay) {
-        SimpleDateFormat dft = new SimpleDateFormat("MM月dd日");
-        Date beginDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        //calendar.set(2017, 0, 7);
-        calendar.setTime(beginDate);
-        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + distanceDay);
-        Date endDate = null;
-        try {
-            endDate = dft.parse(dft.format(calendar.getTime()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dft.format(endDate) + "      " + getWeekByDate(endDate);
-    }
+//    /**
+//     * 获取前n天日期、后n天日期
+//     *
+//     * @param distanceDay 前几天 如获取前7天日期则传-7即可；如果后7天则传7
+//     * @return
+//     */
+//    public static String getLastDateStr(int distanceDay) {
+//        SimpleDateFormat dft = new SimpleDateFormat("MM月dd日");
+//        Date beginDate = new Date();
+//        Calendar calendar = Calendar.getInstance();
+//        //calendar.set(2017, 0, 7);
+//        calendar.setTime(beginDate);
+//        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + distanceDay);
+//        Date endDate = null;
+//        try {
+//            endDate = dft.parse(dft.format(calendar.getTime()));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return dft.format(endDate) + "      " + getWeekByDate(endDate);
+//    }
 
     public static Date getLastDate(int distanceDay) {
         Date beginDate = new Date();
@@ -199,35 +206,30 @@ public class TimeUtil {
     /**
      * 获取当前月第一天
      *
-     * @param month
+     * @param dateTime
      * @return
      */
-    public static Date getFirstDayOfMonth(int month) {
-        Calendar cDay = Calendar.getInstance();
-        cDay.set(Calendar.MONTH, month);
-        cDay.set(Calendar.HOUR_OF_DAY, 0);
-        cDay.set(Calendar.MINUTE, 0);
-        final int lastDay = cDay.getActualMinimum(Calendar.DAY_OF_MONTH);
-        Date lastDate = cDay.getTime();
-        lastDate.setDate(lastDay);
-        return lastDate;
+    public static LocalDateTime getFirstDayOfMonth(LocalDateTime dateTime) {
+        int year = dateTime.getYear();
+        int month = dateTime.getMonthValue();
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return yearMonth.atDay(1).atStartOfDay();
     }
 
     /**
      * 获取当前月最后一天
      *
-     * @param month
+     * @param dateTime
      * @return
      */
-    public static Date getEndDayOfMonth(int month) {
-        Calendar cDay = Calendar.getInstance();
-        cDay.set(Calendar.MONTH, month);
-        cDay.set(Calendar.HOUR_OF_DAY, 23);
-        cDay.set(Calendar.MINUTE, 59);
-        final int lastDay = cDay.getActualMaximum(Calendar.DAY_OF_MONTH);
-        Date lastDate = cDay.getTime();
-        lastDate.setDate(lastDay);
-        return lastDate;
+    public static LocalDateTime getEndDayOfMonth(LocalDateTime dateTime) {
+        int year = dateTime.getYear();
+        int month = dateTime.getMonthValue();
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("月份必须在1到12之间");
+        }
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return yearMonth.atEndOfMonth().atStartOfDay().plusHours(23).plusMinutes(59);
     }
 
     /**
@@ -310,10 +312,8 @@ public class TimeUtil {
         return calendar.get(Calendar.MINUTE);
     }
 
-    public static int getWeekOfYear(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return calendar.get(Calendar.WEEK_OF_YEAR);
+    public static int getWeekOfYear(LocalDateTime dateTime) {
+        return dateTime.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
     }
 
     /**
@@ -322,10 +322,15 @@ public class TimeUtil {
      * @param week
      * @return
      */
-    public static Date getDateByWeek(int week) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.WEEK_OF_YEAR, week);
-        return calendar.getTime();
+    public static LocalDateTime getDateByWeek(int week) {
+        // 获取当前年份
+        Year currentYear = Year.now();
+        // 获取指定周的第一天（星期一）
+        LocalDate firstDayOfWeek = currentYear.atDay(1)
+                .with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week)
+                .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        // 返回该周的第一天的 LocalDateTime
+        return firstDayOfWeek.atStartOfDay();
     }
 
 
@@ -350,16 +355,16 @@ public class TimeUtil {
     /**
      * 日期转星期
      *
-     * @param date
+     * @param dayIndex
      * @return
      */
-    public static String getWeekByDate(Date date) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
-        if (dayIndex < 1 || dayIndex > WEEKDAYS) {
-            return null;
-        }
+    public static String getWeekByDate(int dayIndex) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(date);
+//        int dayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+//        if (dayIndex < 1 || dayIndex > WEEKDAYS) {
+//            return null;
+//        }
 
         return WEEK[dayIndex - 1];
     }

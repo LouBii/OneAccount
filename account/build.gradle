@@ -7,7 +7,7 @@ android {
     namespace 'com.loubii.account' // 新增这一行，值与applicationId一致即可
     defaultConfig {
         applicationId "com.loubii.account"
-        minSdkVersion 21
+        minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
         versionName "1.0"

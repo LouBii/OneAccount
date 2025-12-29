@@ -24,8 +24,8 @@ import com.loubii.account.view.SliderLayout;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -111,10 +111,10 @@ public class FragmentChart extends BaseFragment {
         mPopData.clear();
         addHeaderToPop();
 
-        Date maxDate = DbHelper.getInstance().getMaxDate();
-        Date minDate = DbHelper.getInstance().getMinDate();
-        if (minDate != null && maxDate != null) {
-            List<AccountModel> accountList = DbHelper.getInstance().getAccountList(mAccountType, minDate, maxDate);
+        LocalDateTime maxDateTime = DbHelper.getInstance().getMaxDateTime();
+        LocalDateTime minDateTime = DbHelper.getInstance().getMinDateTime();
+        if (minDateTime != null && maxDateTime != null) {
+            List<AccountModel> accountList = DbHelper.getInstance().getAccountList(mAccountType, minDateTime, maxDateTime);
             mPopData.addAll(AccListUtil.removeRepeat(accountList));
         }
     }
