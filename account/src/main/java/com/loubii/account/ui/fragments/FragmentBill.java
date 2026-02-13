@@ -1,14 +1,17 @@
 package com.loubii.account.ui.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.appbar.AppBarLayout;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -22,6 +25,7 @@ import com.loubii.account.db.AccountModelDao;
 import com.loubii.account.db.database.DBManager;
 import com.loubii.account.db.database.DbHelper;
 import com.loubii.account.event.AccountChangeEvent;
+import com.loubii.account.ui.avtivity.AddAccountActivity;
 import com.loubii.account.ui.avtivity.BillDetailActivity;
 import com.loubii.account.ui.avtivity.BudgetActivity;
 import com.loubii.account.ui.avtivity.CalendarActivity;
@@ -34,14 +38,14 @@ import com.marshalchen.ultimaterecyclerview.stickyheadersrecyclerview.StickyRecy
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * 账单
@@ -83,7 +87,7 @@ public class FragmentBill extends BaseEventFragment {
     private BillAdapter mBillAdapter;
     private DBManager<AccountModel, Long> mDbManager;
     private List<AccountModel> mAccountList = new ArrayList<>();
-    private Date mCurrentDate;
+    private LocalDateTime mCurrentDateTime;
 
 
     public FragmentBill() {
@@ -119,16 +123,19 @@ public class FragmentBill extends BaseEventFragment {
     }
 
     private void initTitleData() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
-        mTvTitleTime.setText(format.format(calendar.getTime()));
-        mCurrentDate = calendar.getTime();
+//        Calendar calendar = Calendar.getInstance();
+//        SimpleDateFormat format = new SimpleDateFormat("MM月dd日");
+        mCurrentDateTime = LocalDateTime.now();
+        mTvTitleTime.setText(mCurrentDateTime.format(DateTimeFormatter.ofPattern("MM月dd日")));
+//        mTvTitleTime.setText(format.format(calendar.getTime()));
+//        mCurrentDate = calendar.getTime();
+
         //mDbManager.queryRaw("where AGE>?","10");
 //        String first = TimeUtil.date2String(TimeUtil.getFirstDayOfMonth(mCurrentDate), "yyyy-MM-dd日   HH:mm");
 //        String end = TimeUtil.date2String(TimeUtil.getLastDayOfMonth(mCurrentDate), "yyyy-MM-dd日   HH:mm");
 //        Logger.e("本月第一天：" + first);
 //        Logger.e("本月最末天：" + end);
-        mAccountList.addAll(getAccountList(0, mCurrentDate));
+        mAccountList.addAll(getAccountList(0, mCurrentDateTime));
     }
 
     @Override
@@ -140,9 +147,9 @@ public class FragmentBill extends BaseEventFragment {
 
 
     private void setTitleView() {
-        mTvExpendDescribe.setText(mCurrentDate.getMonth() + 1 + "月支出");
-        mTvIncomeDescribe.setText(mCurrentDate.getMonth() + 1 + "月收入");
-        mTvBudgetMonthDescribe.setText(mCurrentDate.getMonth() + 1 + "月预算");
+        mTvExpendDescribe.setText(mCurrentDateTime.format(DateTimeFormatter.ofPattern("YY月支出")));
+        mTvIncomeDescribe.setText(mCurrentDateTime.format(DateTimeFormatter.ofPattern("YY月收入")));
+        mTvBudgetMonthDescribe.setText(mCurrentDateTime.format(DateTimeFormatter.ofPattern("YY月预算")));
         if (mAccountList.size() > 0) {
             float sumExpend = 0f;
             float sumIncome = 0f;
@@ -170,9 +177,18 @@ public class FragmentBill extends BaseEventFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(context, CalendarActivity.class);
-                intent.putExtra(Extra.ACCOUNT_DATE, mCurrentDate.getTime());
+                intent.putExtra(Extra.ACCOUNT_DATETIME, mCurrentDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
                 getActivity().startActivity(intent);
                 //ToastUtil.showShort(getActivity(), position + "");
+            }
+        });
+        // 2. 【新增】设置长按监听
+        mBillAdapter.setOnItemLongClickListener(new BillAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(View v, int position) {
+                AccountModel item = mAccountList.get(position);
+                showOperationDialog(item, position); // 调用一个显示对话框的方法
+                return true; // 返回 true 表示已消费此次长按事件，这样可以阻止后续的点击事件被触发
             }
         });
 
@@ -223,13 +239,13 @@ public class FragmentBill extends BaseEventFragment {
      * 分页查询
      *
      * @param offSet      设置开始页
-     * @param currentDate
+     * @param currentDateTime
      */
-    private List<AccountModel> getAccountList(int offSet, Date currentDate) {
+    private List<AccountModel> getAccountList(int offSet, LocalDateTime currentDateTime) {
         List<AccountModel> accountList = mDbManager.queryBuilder()
-                .where(AccountModelDao.Properties.Time.between
-                        (TimeUtil.getFirstDayOfMonth(currentDate), TimeUtil.getEndDayOfMonth(currentDate)))
-                .orderAsc(AccountModelDao.Properties.Time)
+                .where(AccountModelDao.Properties.DateTime.between
+                        (TimeUtil.getFirstDayOfMonth(currentDateTime), TimeUtil.getEndDayOfMonth(currentDateTime)))
+                .orderAsc(AccountModelDao.Properties.DateTime)
                 .offset(offSet * Config.LIST_LOAD_NUM)
                 .limit(Config.LIST_LOAD_NUM)
                 .list();
@@ -262,13 +278,13 @@ public class FragmentBill extends BaseEventFragment {
                 break;
             case R.id.ll_expend_detail:
                 Intent intent = new Intent(context, BillDetailActivity.class);
-                intent.putExtra(Extra.ACCOUNT_DATE, mCurrentDate.getTime());
+                intent.putExtra(Extra.ACCOUNT_DATETIME, mCurrentDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
                 intent.putExtra(Extra.ACCOUNT_TYPE, 1);
                 startActivity(intent);
                 break;
             case R.id.ll_income_detail:
                 Intent intentIn = new Intent(context, BillDetailActivity.class);
-                intentIn.putExtra(Extra.ACCOUNT_DATE, mCurrentDate.getTime());
+                intentIn.putExtra(Extra.ACCOUNT_DATETIME, mCurrentDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
                 intentIn.putExtra(Extra.ACCOUNT_TYPE, 2);
                 startActivity(intentIn);
                 break;
@@ -288,14 +304,16 @@ public class FragmentBill extends BaseEventFragment {
      */
     private void changeList(int monthDistance) {
         //当前月
-        if (monthDistance > 0 && TimeUtil.date2String(new Date(), "yy年MM月")
-                .equals(TimeUtil.date2String(mCurrentDate, "yy年MM月")))
-            return;
+//        if (monthDistance > 0 && TimeUtil.date2String(new Date(), "yy年MM月")
+//                .equals(TimeUtil.date2String(mCurrentDateTime, "yy年MM月")))
+//            return;
         if (monthDistance != 0) {
-            mCurrentDate = TimeUtil.getMonthAgo(mCurrentDate, monthDistance);
-            mTvTitleTime.setText(TimeUtil.date2String(mCurrentDate, "yy年MM月"));
+            mCurrentDateTime = mCurrentDateTime.plusMonths(monthDistance);
+//            mCurrentDateTime = TimeUtil.getMonthAgo(mCurrentDate, monthDistance);
+            mTvTitleTime.setText(mCurrentDateTime.format(DateTimeFormatter.ofPattern("yy年MM月")));
+//            mTvTitleTime.setText(TimeUtil.date2String(mCurrentDate, "yy年MM月"));
         }
-        List<AccountModel> accList = getAccountList(0, mCurrentDate);
+        List<AccountModel> accList = getAccountList(0, mCurrentDateTime);
         if (accList != null) {
             mAccountList.clear();
             mAccountList.addAll(accList);
@@ -329,5 +347,38 @@ public class FragmentBill extends BaseEventFragment {
             changeList(0);
             setTitleView();
         }
+    }
+
+    // 弹窗示例方法
+    private void showOperationDialog(final AccountModel item, final int position) {
+        String[] options = new String[]{"编辑", "删除"};
+        new AlertDialog.Builder(requireActivity())
+                .setTitle("操作")
+                .setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0: // 编辑
+                                // 跳转到编辑页面，传递账单ID (假设你的AccountModel有getId()方法)
+                                Intent editIntent = new Intent(getActivity(), AddAccountActivity.class);
+                                editIntent.putExtra("EDIT_MODE", true); // 标记为编辑模式
+                                editIntent.putExtra("BILL_ID", item.getId()); // 传递账单唯一ID
+                                // 或者直接传递可序列化的对象（如果数据量不大）
+                                // editIntent.putExtra("BILL_OBJECT", item);
+                                startActivity(editIntent);
+                                break;
+                            case 1: // 删除
+                                // 从数据源移除
+                                mDbManager.deleteByKey(item.getId());
+                                mAccountList.remove(position);
+                                // 通知适配器更新（如果你使用的是 UltimateRecyclerView 的特定方法，可能需要调整）
+                                mBillAdapter.notifyItemRemoved(position);
+                                // 注意：如果还有粘性头部，可能需要更复杂的更新逻辑
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 }

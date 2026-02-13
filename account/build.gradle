@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 33
 //    buildToolsVersion project.properties.ANDROID_BUILD_TOOLS_VERSION
-
+    namespace 'com.loubii.account' // 新增这一行，值与applicationId一致即可
     defaultConfig {
         applicationId "com.loubii.account"
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion 26
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -22,7 +22,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    // 关键：为Java编译任务添加JVM参数以解决模块访问错误
+    tasks.withType(JavaCompile).configureEach {
+        // 启用新进程并传递JVM参数给注解处理器
+        options.fork = true
+        options.forkOptions.jvmArgs += [
+                // 这几个是解决 ButterKnife 10.x 访问问题的核心
+                '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED',
+                '--add-exports', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED',
+                '--add-exports', 'jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED',
+                '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED',
+                '--add-opens', 'jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED'
+        ]
+        // 传递给编译器本身的参数
+        options.compilerArgs += [
+                '-Xlint:none' // 可选：抑制所有警告
+        ]
+    }
     greendao{
         schemaVersion 4
         targetGenDir 'src/main/java'
@@ -35,28 +51,33 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
     //compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
-    compile 'com.jakewharton:butterknife:8.8.0'
+    implementation 'com.jakewharton:butterknife:10.2.3'
     //添加这一句，不然会报错
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
-    compile 'com.github.zcweng:switch-button:0.0.3@aar'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'me.relex:circleindicator:1.2.2@aar'
-    compile 'com.google.code.gson:gson:2.8.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation 'org.greenrobot:eventbus:3.0.0'
     //compile 'com.prolificinteractive:material-calendarview:1.4.3'
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-    compile project(':library:pickerview')
-    compile project(':library:calendarLibrary')
-    compile project(':library:leafchart')
-    compile 'de.hdodenhof:circleimageview:2.2.0'
-    compile 'com.yanzhenjie:permission:1.1.2'
-    compile 'org.greenrobot:greendao:3.3.0'
+//    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.14'
+    implementation 'io.github.cymchad:BaseRecyclerViewAdapterHelper4:4.1.4'
+    implementation project(':library:pickerview')
+    implementation project(':library:calendarLibrary')
+    implementation project(':library:leafchart')
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    implementation 'com.yanzhenjie:permission:1.1.2'
+    implementation 'org.greenrobot:greendao:3.3.0'
+    implementation ('com.marshalchen.ultimaterecyclerview:library:0.7.2') {
+        exclude group: 'jp.wasabeef', module: 'recyclerview-animators'
+    }
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.2'
 //    compile 'org.greenrobot:greendao-generator:3.2.2'
 }

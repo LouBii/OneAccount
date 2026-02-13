@@ -241,7 +241,8 @@ public class LeafLineRenderer extends AbsRenderer {
             else
                 fillPaint.setColor(line.getFillColor());
 
-            canvas.save(Canvas.CLIP_SAVE_FLAG);
+            canvas.save();
+//            canvas.save(Canvas.CLIP_SAVE_FLAG);
             canvas.clipRect(firstX, 0, phase * (lastX - firstX) + firstX, mHeight);
             canvas.drawPath(path, fillPaint);
             canvas.restore();

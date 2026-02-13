@@ -2,9 +2,9 @@ package com.loubii.account.ui.avtivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,8 +24,9 @@ import com.loubii.account.util.TimeUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -46,7 +47,7 @@ public class BillDetailActivity extends BaseActivity {
     @BindView(R.id.rg_type)
     RadioGroup mRgType;
     private BillSwipeAdapter mBillSwipeAdapter;
-    private Date mDate;
+    private LocalDateTime mDateTime;
     private List<AccountModel> mAccountList = new ArrayList<>();
     private int mAccountType;
     private boolean hasDelete = false; //是否有过删除操作
@@ -59,11 +60,13 @@ public class BillDetailActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        long time = getIntent().getLongExtra(Extra.ACCOUNT_DATE, 0l);
+        String time = getIntent().getStringExtra(Extra.ACCOUNT_DATETIME);
         mAccountType = getIntent().getIntExtra(Extra.ACCOUNT_TYPE, 0);
-        if (time != 0l) {
-            mDate = new Date(time);
-            mAccountList.addAll(getAccountList(0, mDate, 1));
+        if (time.length()!=0) {
+//            mDateTime = LocalDate.of(0,)
+            mDateTime = LocalDateTime.parse(time);
+//            mDate = new Date(time);
+            mAccountList.addAll(getAccountList(0, mDateTime, 1));
         }
     }
 
@@ -90,11 +93,11 @@ public class BillDetailActivity extends BaseActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_expend:
-                        if (mDate != null)
+                        if (mDateTime != null)
                             changeList(1);
                         break;
                     case R.id.rb_income:
-                        if (mDate != null)
+                        if (mDateTime != null)
                             changeList(2);
                         break;
                     default:
@@ -106,7 +109,7 @@ public class BillDetailActivity extends BaseActivity {
 
     private void changeList(int outInType) {
         mAccountList.clear();
-        mAccountList.addAll(getAccountList(0, mDate, outInType));
+        mAccountList.addAll(getAccountList(0, mDateTime, outInType));
         mBillSwipeAdapter.notifyDataSetChanged();
         if (mAccountList.size() == 0) {
             mUltimateRecyclerView.showEmptyView();
@@ -151,12 +154,12 @@ public class BillDetailActivity extends BaseActivity {
      * @param offSet      设置开始页
      * @param currentDate
      */
-    private List<AccountModel> getAccountList(int offSet, Date currentDate, int outInType) {
+    private List<AccountModel> getAccountList(int offSet, LocalDateTime currentDate, int outInType) {
         List<AccountModel> accountList = mDbManager.queryBuilder()
-                .where(AccountModelDao.Properties.Time.between
+                .where(AccountModelDao.Properties.DateTime.between
                                 (TimeUtil.getFirstDayOfMonth(currentDate), TimeUtil.getEndDayOfMonth(currentDate)),
                         AccountModelDao.Properties.OutIntype.eq(outInType))
-                .orderAsc(AccountModelDao.Properties.Time)
+                .orderAsc(AccountModelDao.Properties.DateTime)
                 .offset(offSet * Config.LIST_LOAD_NUM)
                 .limit(Config.LIST_LOAD_NUM)
                 .list();

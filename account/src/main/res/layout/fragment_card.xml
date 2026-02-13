@@ -6,7 +6,7 @@
               android:orientation="vertical"
               tools:context=".ui.fragments.FragmentBill">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -19,7 +19,7 @@
             layout="@layout/layout_toolbar_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/ll_add_deposit"
@@ -46,13 +46,13 @@
             android:text="@string/add_deposit"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
 
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 
     <!--<include layout="@layout/item_card_add"/>-->
 

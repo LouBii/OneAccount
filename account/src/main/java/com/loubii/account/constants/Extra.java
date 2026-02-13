@@ -10,7 +10,7 @@ public class Extra {
     /** 卡号 */
     public static final String CARD_ID = "CARD_ID";
     /** 记账时间（月份） */
-    public static final String ACCOUNT_DATE = "ACCOUNT_DATE";
+    public static final String ACCOUNT_DATETIME = "ACCOUNT_DATETIME";
     /** 支出/收入类型 */
     public static final String ACCOUNT_TYPE = "ACCOUNT_TYPE";
     /** 记账列表数据源是否发生改变 */

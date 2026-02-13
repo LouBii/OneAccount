@@ -5,14 +5,12 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 //    buildToolsVersion project.properties.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 29
-        versionCode 22
-        versionName "3.2.6"
+        targetSdkVersion 31
     }
     buildTypes {
         release {
@@ -44,6 +42,6 @@ allprojects {
 //}
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    api fileTree(include: ['*.jar'], dir: 'libs')
 
 }

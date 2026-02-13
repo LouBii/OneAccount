@@ -2,10 +2,10 @@ package com.loubii.account.ui.fragments.chart;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,9 +33,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -71,7 +74,7 @@ public class ChartDetailFragment extends BaseEventFragment {
      */
     private int mDays;
     private List<AccountModel> mAccountList = new ArrayList<>();
-    private Date mDateStart, mDateEnd;
+    private LocalDateTime mDateTimeStart, mDateTimeEnd;
     private float mMaxValue = 0f; //list最大值
     private ArrayList<Float> mFloatList;
     private int mAccountType = Extra.ACCOUNT_TYPE_EXPEND;
@@ -97,7 +100,6 @@ public class ChartDetailFragment extends BaseEventFragment {
         if (getArguments() != null) {
             mTimeType = getArguments().getInt(TIME_TYPE);
             mTime = getArguments().getInt(END_TIME);
-            mMaxValue = getArguments().getFloat(MAX_VALUE);
         }
     }
 
@@ -200,32 +202,32 @@ public class ChartDetailFragment extends BaseEventFragment {
         switch (mTimeType) {
             case ChartTypeFragment.TYPE_WEEK:
                 mDays = 7;
-                mDateStart = TimeUtil.getFirstDayOfWeek(TimeUtil.getDateByWeek(mTime));
-                mDateEnd = TimeUtil.getEndDayOfWeek(TimeUtil.getDateByWeek(mTime));
-                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateStart, mDateEnd);
+                mDateTimeStart = TimeUtil.getDateByWeek(mTime);
+                mDateTimeEnd = mDateTimeStart.plusDays(7);
+                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateTimeStart, mDateTimeEnd);
                 mFloatList = getValues(mAccountList);
                 //mMaxValue = Collections.max(mFloatList);
                 //Logger.e("max:" + mAccountList.size());
                 break;
             case ChartTypeFragment.TYPE_MONTH:
-                mDays = 31;
-
-                mDateStart = TimeUtil.getFirstDayOfMonth(mTime);
-                mDateEnd = TimeUtil.getEndDayOfMonth(mTime);
-                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateStart, mDateEnd);
+                mDateTimeStart = Year.now().atMonth(mTime).atDay(1).atStartOfDay();
+                mDateTimeEnd = mDateTimeStart.plusMonths(1);
+                mDays =(int)ChronoUnit.DAYS.between(mDateTimeStart,mDateTimeEnd);
+                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateTimeStart, mDateTimeEnd);
                 mFloatList = getValues(mAccountList);
                 //mMaxValue = Collections.max(mFloatList);
                 break;
             case ChartTypeFragment.TYPE_YEAR:
                 mDays = 12;
-                mDateStart = TimeUtil.getFirstDayOfYear(mTime);
-                mDateEnd = TimeUtil.getEndDayOfYear(mTime);
-                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateStart, mDateEnd);
+                mDateTimeStart = Year.of(mTime).atMonth(1).atDay(1).atStartOfDay();
+                mDateTimeEnd = mDateTimeStart.plusYears(1);
+                mAccountList = DbHelper.getInstance().getAccountList(mAccountType, mDetailType, mDateTimeStart, mDateTimeEnd);
                 mFloatList = getValues(mAccountList);
                 break;
             default:
                 break;
         }
+        mMaxValue = Collections.max(mFloatList);
     }
 
     private ArrayList<Float> getValues(List<AccountModel> accountList) {
@@ -233,10 +235,10 @@ public class ChartDetailFragment extends BaseEventFragment {
         int currentDay;
         for (int i = 1; i <= mDays; i++) {
             if (mTimeType == ChartTypeFragment.TYPE_YEAR) { //年
-                currentDay = i - 1;
+                currentDay = i;
             } else { //月周
-                Date currentDate = TimeUtil.getDistanceDate(mDateStart, i - 1);
-                currentDay = TimeUtil.getDayOfYear(currentDate);
+                LocalDateTime currentDateTime = mDateTimeStart.plusDays(i-1);
+                currentDay = currentDateTime.getDayOfYear();
             }
 
             if (accountList == null || accountList.size() == 0) { //天数为0
@@ -246,9 +248,9 @@ public class ChartDetailFragment extends BaseEventFragment {
                 for (AccountModel accountModel : accountList) {
                     int day;
                     if (mTimeType == ChartTypeFragment.TYPE_YEAR)
-                        day = TimeUtil.getMonthOfYear(accountModel.getTime());
+                        day = accountModel.getDateTime().getMonthValue();
                     else
-                        day = TimeUtil.getDayOfYear(accountModel.getTime());
+                        day = accountModel.getDateTime().getDayOfYear();
                     if (currentDay == day) { //周、月模式同一天的数据累计相加，年为同月数据相加
                         sumDayCount += accountModel.getCount();
                     }
@@ -326,24 +328,27 @@ public class ChartDetailFragment extends BaseEventFragment {
     }
 
     private List<AccountModel> getAccountModels(int position, String detailType) {
-        Date selectedDate;
+        LocalDateTime selectedDateTime;
+//        Date selectedDate;
         List<AccountModel> list;
         if (mTimeType == ChartTypeFragment.TYPE_YEAR) {
-            selectedDate = TimeUtil.getMonthAgo(mDateStart, position);
+            selectedDateTime = mDateTimeStart.minusMinutes(position);
+//            selectedDate = TimeUtil.getMonthAgo(mDateStart, position);
+
             list = getAccountList(mAccountType, detailType,
-                    TimeUtil.getFirstDayOfMonth(selectedDate), TimeUtil.getEndDayOfMonth(selectedDate));
+                    TimeUtil.getFirstDayOfMonth(selectedDateTime), TimeUtil.getEndDayOfMonth(selectedDateTime));
         } else {
-            selectedDate = TimeUtil.getDistanceDate(mDateStart, position);
-            list = getAccountList(mAccountType, detailType,
-                    TimeUtil.getDayStartTime(selectedDate), TimeUtil.getDayEndTime(selectedDate));
+            selectedDateTime = mDateTimeStart.minusMonths(position);
+//            selectedDate = TimeUtil.getDistanceDate(mDateStart, position);
+            list = getAccountList(mAccountType, detailType,selectedDateTime.toLocalDate().atStartOfDay(),selectedDateTime.toLocalDate().atTime(23,59));
         }
         return list;
 
     }
 
-    public List<AccountModel> getAccountList(int accountType, String detailType, Date startTime, Date endTime) {
+    public List<AccountModel> getAccountList(int accountType, String detailType, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         QueryBuilder<AccountModel> builder = mDbManager.queryBuilder()
-                .where(AccountModelDao.Properties.Time.between(startTime, endTime),
+                .where(AccountModelDao.Properties.DateTime.between(startDateTime, endDateTime),
                         AccountModelDao.Properties.OutIntype.eq(accountType));
         if (!detailType.equals(Extra.DETAIL_TYPE_DEFAULT))
             builder.where(AccountModelDao.Properties.DetailType.eq(detailType));
@@ -358,11 +363,13 @@ public class ChartDetailFragment extends BaseEventFragment {
         List<AxisValue> axisValues = new ArrayList<>();
 
         for (int i = 1; i <= mDays; i++) {
-            Date currentDate = TimeUtil.getDistanceDate(mDateStart, i - 1);
+            LocalDateTime currentDateTime = mDateTimeStart.plusDays(i - 1);
+//            Date currentDate = TimeUtil.getDistanceDate(mDateStart, i - 1);
             AxisValue value = new AxisValue();
             if (mTimeType == ChartTypeFragment.TYPE_MONTH) {
                 if (i % 5 == 0) {
-                    value.setLabel(TimeUtil.date2String(currentDate, "MM-dd"));
+                    value.setLabel(currentDateTime.format(DateTimeFormatter.ofPattern("MM-dd")));
+//                    value.setLabel(TimeUtil.date2String(currentDate, "MM-dd"));
                     value.setShowLabel(true);
                 } else
                     value.setLabel("");
@@ -370,7 +377,8 @@ public class ChartDetailFragment extends BaseEventFragment {
                 value.setLabel(i + "月");
                 value.setShowLabel(true);
             } else {
-                value.setLabel(TimeUtil.date2String(currentDate, "MM-dd"));
+                value.setLabel(currentDateTime.format(DateTimeFormatter.ofPattern("MM-dd")));
+//                value.setLabel(TimeUtil.date2String(currentDate, "MM-dd"));
                 value.setShowLabel(true);
             }
 

@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_dettail"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -13,14 +13,14 @@
         app:tabTextColor="@color/colorTextChartTabNormal"
         app:tabIndicatorColor="@color/colorGreenChart"
         app:tabIndicatorHeight="1dp">
-    </android.support.design.widget.TabLayout>
+    </com.google.android.material.tabs.TabLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorTextChartTabNormal"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_chart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

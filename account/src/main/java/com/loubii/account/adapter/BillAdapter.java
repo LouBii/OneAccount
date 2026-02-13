@@ -1,6 +1,6 @@
 package com.loubii.account.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,9 @@ import com.loubii.account.R;
 import com.loubii.account.bean.AccountModel;
 import com.loubii.account.util.TimeUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +30,7 @@ public class BillAdapter extends UltimateViewAdapter {
 
     private List<AccountModel> mAccountList;
     private OnItemClickListener mItemClickListener;
+    private OnItemLongClickListener mItemLongClickListener;
 
     public BillAdapter(List<AccountModel> mAccountList) {
         this.mAccountList = mAccountList;
@@ -39,7 +43,6 @@ public class BillAdapter extends UltimateViewAdapter {
 
     @Override
     public RecyclerView.ViewHolder newHeaderHolder(View view) {
-
         return new UltimateRecyclerviewViewHolder<>(view);
     }
 
@@ -59,14 +62,15 @@ public class BillAdapter extends UltimateViewAdapter {
     @Override
     public long generateHeaderId(int position) {
         //Logger.e(calendar.get(Calendar.DAY_OF_MONTH) + "--->" + position);
-        return getDay(mAccountList.get(position).getTime()) ;
+        return mAccountList.get(position).getDateTime().getDayOfMonth();
+//        return getDay(mAccountList.get(position).getDateTime()) ;
     }
 
-    private long getDay(Date time) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-        return calendar.get(Calendar.DAY_OF_MONTH);
-    }
+//    private long getDay(Date time) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(time);
+//        return calendar.get(Calendar.DAY_OF_MONTH);
+//    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -103,17 +107,19 @@ public class BillAdapter extends UltimateViewAdapter {
 
         //Logger.e("header: " + getItemViewType(position));
         HeaderHoleder headerHoleder = (HeaderHoleder) holder;
-        String time = TimeUtil.date2String(mAccountList.get(position).getTime(), "MM月dd日");
-        String week = TimeUtil.getWeekByDate(mAccountList.get(position).getTime());
-        headerHoleder.tvStickyDay.setText(time);
+        String strDatetime = mAccountList.get(position).getDateTime().format(DateTimeFormatter.ofPattern("MM月dd日"));
+//        String time = TimeUtil.date2String(mAccountList.get(position).getTime(), "MM月dd日");
+        String week = TimeUtil.getWeekByDate(mAccountList.get(position).getDateTime().getDayOfWeek().getValue());
+        headerHoleder.tvStickyDay.setText(strDatetime);
         headerHoleder.tvStickyWeek.setText(week);
         //Logger.e(generateHeaderId(position)+ "  -- > " + position);
         float sumExpend = 0f;
         float sumIncome = 0f;
         for (int i = position; i < mAccountList.size(); i++) {
-            Date date = mAccountList.get(i).getTime();
+            LocalDateTime dateTime = mAccountList.get(i).getDateTime();
             //从当前day往后循环判断，如果day相同则表示为同一天，否则跳出循环
-            if (getDay(date) == generateHeaderId(position)) {
+            if (dateTime.getDayOfMonth() == generateHeaderId(position)){
+//            if (getDay(date) == generateHeaderId(position)) {
                 int type = mAccountList.get(i).getOutIntype();
                 if (type == 1) //支出
                     sumExpend += mAccountList.get(i).getCount();
@@ -139,6 +145,25 @@ public class BillAdapter extends UltimateViewAdapter {
         this.mItemClickListener = listener;
     }
 
+    public interface OnItemLongClickListener {
+        /**
+         * 长按Item的回调
+         * @param view 被长按的View
+         * @param position 被长按的项的位置
+         * @return 是否消费了此次事件
+         */
+        boolean onItemLongClick(View view, int position);
+    }
+
+    /**
+     * 设置Item长按监听
+     * @param listener
+     */
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.mItemLongClickListener = listener;
+    }
+
+
     class ItemHoleder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
 
         ImageView ivClassify;
@@ -156,14 +181,28 @@ public class BillAdapter extends UltimateViewAdapter {
             tvClassifyMoney = (TextView) itemView.findViewById(R.id.tv_classify_money);
             itemBill = itemView.findViewById(R.id.item_bill);
             itemView.setOnClickListener(this);
+
+            itemBill.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // 获取位置并回调
+                    int position = (int) itemView.getTag(); // 使用和 onClick 相同的方式获取位置
+                    if (mItemLongClickListener != null) {
+                        // 将事件传递给外部监听器，并返回其结果
+                        return mItemLongClickListener.onItemLongClick(v, position);
+                    }
+                    // 如果未设置长按监听器，则不消费事件
+                    return false;
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             mItemClickListener.onItemClick(v, (int) v.getTag());
         }
-    }
 
+    }
 
     class HeaderHoleder extends UltimateRecyclerviewViewHolder implements View.OnClickListener {
 
@@ -185,6 +224,7 @@ public class BillAdapter extends UltimateViewAdapter {
         public void onClick(View v) {
             mItemClickListener.onItemClick(v, (int) v.getTag());
         }
+
     }
 
 

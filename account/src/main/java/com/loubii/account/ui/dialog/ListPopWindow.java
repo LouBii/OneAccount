@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.ListPopupWindow;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.ListPopupWindow;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 

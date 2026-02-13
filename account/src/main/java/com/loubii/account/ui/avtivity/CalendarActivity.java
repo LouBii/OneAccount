@@ -1,8 +1,8 @@
 package com.loubii.account.ui.avtivity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,8 +22,8 @@ import com.loubii.account.ui.calendar.TodayDecorator;
 import com.loubii.account.util.TimeUtil;
 import com.loubii.account.util.ToastUtil;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -55,7 +55,7 @@ public class CalendarActivity extends BaseActivity {
     private CountDecorator mCountDecorator;
     private ArrayList<CountBean> mFloatList = new ArrayList<>();
     private int mSelectDay;
-    private Date mCurrentDate; //当前时间
+    private LocalDateTime mCurrentDateTime; //当前时间
     private List<AccountModel> mAccountList = new ArrayList<>();
 
     @Override
@@ -121,15 +121,18 @@ public class CalendarActivity extends BaseActivity {
     private List<CountBean> getCurrentMonthData() {
         mAccountList.clear();
         mFloatList.clear();
-        Date mDateStart = TimeUtil.getFirstDayOfMonth(mCurrentDate);
-        Date mDateEnd = TimeUtil.getEndDayOfMonth(mCurrentDate);
-        mAccountList = DbHelper.getInstance().getAccountList(Extra.ACCOUNT_TYPE_ALL, mDateStart, mDateEnd);
+        LocalDateTime mDateTimeStart = TimeUtil.getFirstDayOfMonth(mCurrentDateTime);
+        LocalDateTime mDateTimeEnd = TimeUtil.getEndDayOfMonth(mCurrentDateTime);
+//        Date mDateStart = TimeUtil.getFirstDayOfMonth(mCurrentDate);
+//        Date mDateEnd = TimeUtil.getEndDayOfMonth(mCurrentDate);
+        mAccountList = DbHelper.getInstance().getAccountList(Extra.ACCOUNT_TYPE_ALL, mDateTimeStart, mDateTimeEnd);
         //mFloatList = getValues(mAccountList);
 
 
-        int maxDay = TimeUtil.getDayOfMonth(TimeUtil.getEndDayOfMonth(mCurrentDate));
+//        int maxDay = TimeUtil.getDayOfMonth(TimeUtil.getEndDayOfMonth(mCurrentDateTime));
+        int maxDay = mCurrentDateTime.getDayOfMonth();
         //Logger.e(maxDay + "");
-        mFloatList = getValues(maxDay, mDateStart, mAccountList);
+        mFloatList = getValues(maxDay, mDateTimeStart, mAccountList);
         //Logger.e(mFloatList.size() + "");
 
 //        for (int i = 0; i < maxDay; i++) {
@@ -149,11 +152,13 @@ public class CalendarActivity extends BaseActivity {
         return mFloatList;
     }
 
-    private ArrayList<CountBean> getValues(int maxDay, Date dateStart, List<AccountModel> accountList) {
+    private ArrayList<CountBean> getValues(int maxDay, LocalDateTime dateTimeStart, List<AccountModel> accountList) {
         //ArrayList<CountBean> beanList = new ArrayList<>();
         for (int i = 0; i < 31; i++) {
-            Date currentDate = TimeUtil.getDistanceDate(dateStart, i);
-            int currentDay = TimeUtil.getDayOfYear(currentDate);
+            LocalDateTime currentDateTime = dateTimeStart.plusDays(i);
+//            Date currentDate = TimeUtil.getDistanceDate(dateStart, i);
+//            int currentDay = TimeUtil.getDayOfYear(currentDate);
+            int currentDay = currentDateTime.getDayOfYear();
             CountBean countBean = new CountBean();
             countBean.setDay(i + 1);
             countBean.setSelect(false);
@@ -165,7 +170,8 @@ public class CalendarActivity extends BaseActivity {
             } else { //list天数小于等于days
                 float sumDayCount = 0f;
                 for (AccountModel accountModel : accountList) {
-                    int day = TimeUtil.getDayOfYear(accountModel.getTime());
+                    int day = accountModel.getDateTime().getDayOfYear();
+//                    int day = TimeUtil.getDayOfYear(accountModel.getTime());
                     if (currentDay == day) { //周、月模式同一天的数据累计相加，年为同月数据相加
                         sumDayCount += accountModel.getCount();
                     }
@@ -194,8 +200,8 @@ public class CalendarActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        long curTime = getIntent().getLongExtra(Extra.ACCOUNT_DATE, 0l);
-        mCurrentDate = new Date(curTime);
+//        long curTime = getIntent().getLongExtra(Extra.ACCOUNT_DATE, 0l);
+        mCurrentDateTime = LocalDateTime.now();
     }
 
     @OnClick({R.id.ll_title_left, R.id.ll_title_right})

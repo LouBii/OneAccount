@@ -1,6 +1,6 @@
 package com.loubii.account.ui.card;
 
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

@@ -1,8 +1,8 @@
 package com.loubii.account.ui.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,9 +15,9 @@ import com.loubii.account.ui.fragments.chart.ChartDetailFragment;
 import com.loubii.account.util.AccListUtil;
 import com.loubii.account.util.TimeUtil;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -120,23 +120,24 @@ public class ChartTypeFragment extends BaseFragment {
         mTitleList.clear();
         mFragmentList.clear();
 
-        Date maxDate = DbHelper.getInstance().getMaxDate();
-        Date minDate = DbHelper.getInstance().getMinDate();
-        if (minDate == null || maxDate == null) {
+//        Date maxDate = DbHelper.getInstance().getMaxDate();
+//        Date minDate = DbHelper.getInstance().getMinDate();
+        LocalDateTime maxDateTime = DbHelper.getInstance().getMaxDateTime();
+        LocalDateTime minDateTime = DbHelper.getInstance().getMinDateTime();
+        if (minDateTime == null || maxDateTime == null) {
             mVpChart.setVisibility(View.GONE);
             mLinEmpty.setVisibility(View.VISIBLE);
             return;
         }
 
-        List<AccountModel> accountList = DbHelper.getInstance().getAccountList(mAccountType, minDate, maxDate);
+        List<AccountModel> accountList = DbHelper.getInstance().getAccountList(mAccountType, minDateTime, maxDateTime);
         mDetailTypeList = AccListUtil.removeRepeat(accountList);
         float maxValue = getMaxValue(accountList);
-
         switch (mType) {
             case TYPE_WEEK:
-                if (maxDate != null && minDate != null) {
-                    int minWeek = TimeUtil.getWeekOfYear(minDate);
-                    int maxWeek = TimeUtil.getWeekOfYear(maxDate);
+                if (maxDateTime != null && minDateTime != null) {
+                    int minWeek = TimeUtil.getWeekOfYear(minDateTime);
+                    int maxWeek = TimeUtil.getWeekOfYear(maxDateTime);
                     for (int i = minWeek; i <= maxWeek; i++) {
                         mTitleList.add(i + "周");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_WEEK, i, maxValue));
@@ -146,11 +147,11 @@ public class ChartTypeFragment extends BaseFragment {
 
                 break;
             case TYPE_MONTH:
-                if (maxDate != null && minDate != null) {
-                    int minMonth = TimeUtil.getMonthOfYear(minDate);
-                    int maxMonth = TimeUtil.getMonthOfYear(maxDate);
+                if (maxDateTime != null && minDateTime != null) {
+                    int minMonth = minDateTime.getMonthValue();
+                    int maxMonth = maxDateTime.getMonthValue();
                     for (int i = minMonth; i <= maxMonth; i++) {
-                        mTitleList.add((i + 1) + "月");
+                        mTitleList.add(i + "月");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_MONTH, i, maxValue));
                     }
                     //setPagerData(mFragmentList, mTitleList);
@@ -158,11 +159,11 @@ public class ChartTypeFragment extends BaseFragment {
 
                 break;
             case TYPE_YEAR:
-                if (maxDate != null && minDate != null) {
-                    int minYear = TimeUtil.getYear(minDate);
-                    int maxYear = TimeUtil.getYear(maxDate);
+                if (maxDateTime != null && minDateTime != null) {
+                    int minYear = minDateTime.getYear();
+                    int maxYear = maxDateTime.getYear();
                     for (int i = minYear; i <= maxYear; i++) {
-                        mTitleList.add((i) + "年");
+                        mTitleList.add(i + "年");
                         mFragmentList.add(ChartDetailFragment.newInstance(TYPE_YEAR, i, maxValue));
                     }
                     //setPagerData(mFragmentList, mTitleList);
@@ -191,9 +192,11 @@ public class ChartTypeFragment extends BaseFragment {
             return 0f;
         } else {
             float sumDayCount = 0f;
-            int day = TimeUtil.getDayOfYear(accountList.get(0).getTime());
+            int day = accountList.get(0).getDateTime().getDayOfYear();
+//            int day = TimeUtil.getDayOfYear(accountList.get(0).getTime());
             for (AccountModel accountModel : accountList) {
-                int dayTemp = TimeUtil.getDayOfYear(accountModel.getTime());
+//                int dayTemp = TimeUtil.getDayOfYear(accountModel.getTime());
+                int dayTemp = accountModel.getDateTime().getDayOfYear();
                 if (dayTemp != day) { //如果不是同一天
                     listFloat.add(sumDayCount);
                     day = dayTemp;

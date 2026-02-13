@@ -1,7 +1,7 @@
 package com.prolificinteractive.materialcalendarview;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Calendar;
 import java.util.Collection;

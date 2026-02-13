@@ -2,8 +2,8 @@ package com.loubii.account.ui.card;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import android.view.View;
 import android.widget.LinearLayout;
 

@@ -126,7 +126,8 @@ public class OutsideLineRenderer extends AbsRenderer {
 
             measure = new PathMeasure(path, false);
             linePaint.setPathEffect(createPathEffect(measure.getLength(), phase, 0.0f));
-            canvas.save(Canvas.CLIP_SAVE_FLAG);
+            canvas.save();
+//            canvas.save(Canvas.CLIP_SAVE_FLAG);
             canvas.clipRect(axisY.getStartX(), 0, mWidth, mHeight);
             canvas.drawPath(path, linePaint);
             canvas.restore();
@@ -162,7 +163,8 @@ public class OutsideLineRenderer extends AbsRenderer {
             else
                 fillPaint.setColor(line.getFillColor());
 
-            canvas.save(Canvas.CLIP_SAVE_FLAG);
+            canvas.save();
+//            canvas.save(Canvas.CLIP_SAVE_FLAG);
             canvas.clipRect(firstX, 0, phase * (lastX - firstX) + firstX + moveX, mHeight);
             canvas.drawPath(path, fillPaint);
             canvas.restore();
@@ -180,7 +182,8 @@ public class OutsideLineRenderer extends AbsRenderer {
             float radius = LeafUtil.dp2px(mContext, line.getPointRadius());
             float strokeWidth = LeafUtil.dp2px(mContext, 1);
             PointValue point;
-            canvas.save(Canvas.CLIP_SAVE_FLAG);
+            canvas.save();
+//            canvas.save(Canvas.CLIP_SAVE_FLAG);
             canvas.clipRect(axisY.getStartX(), 0, mWidth, mHeight);
             for (int i = 0, size = values.size(); i < size; i++) {
                 point = values.get(i);
@@ -205,7 +208,8 @@ public class OutsideLineRenderer extends AbsRenderer {
                     labelPaint.setTextSize(LeafUtil.sp2px(mContext, 12));
                     List<PointValue> values = chartData.getValues();
                     int size = values.size();
-                    canvas.save(Canvas.CLIP_SAVE_FLAG);
+                    canvas.save();
+//                    canvas.save(Canvas.CLIP_SAVE_FLAG);
                     canvas.clipRect(axisY.getStartX(), 0, mWidth, mHeight);
                     for (int i = 0; i < size; i++) {
                         PointValue point = values.get(i);

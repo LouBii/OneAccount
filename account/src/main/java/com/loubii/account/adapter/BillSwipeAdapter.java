@@ -1,6 +1,6 @@
 package com.loubii.account.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,8 @@ import com.loubii.account.db.database.DBManager;
 import com.loubii.account.util.TimeUtil;
 import com.loubii.account.util.ToastUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -103,15 +105,16 @@ public class BillSwipeAdapter extends SwipeableUltimateViewAdapter<AccountModel>
 
     @Override
     public long generateHeaderId(int position) {
-        return getDay(mAccountList.get(position).getTime());
+        return mAccountList.get(position).getDateTime().getDayOfMonth();
+//        return getDay(mAccountList.get(position).getDateTime());
         //return new Long( (long) position);
     }
 
-    private long getDay(Date time) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-        return calendar.get(Calendar.DAY_OF_MONTH);
-    }
+//    private long getDay(Date time) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(time);
+//        return calendar.get(Calendar.DAY_OF_MONTH);
+//    }
 
     @Override
     public UltimateRecyclerviewViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
@@ -123,16 +126,18 @@ public class BillSwipeAdapter extends SwipeableUltimateViewAdapter<AccountModel>
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int pos) {
         HeaderHoleder headerHoleder = (HeaderHoleder) holder;
-        String time = TimeUtil.date2String(mAccountList.get(pos).getTime(), "MM月dd日");
-        String week = TimeUtil.getWeekByDate(mAccountList.get(pos).getTime());
+        String time = mAccountList.get(pos).getDateTime().format(DateTimeFormatter.ofPattern("MM月dd日"));
+//        String time = TimeUtil.date2String(mAccountList.get(pos).getDateTime(), "MM月dd日");
+        String week = TimeUtil.getWeekByDate(mAccountList.get(pos).getDateTime().getDayOfWeek().getValue());
         headerHoleder.tvStickyDay.setText(time);
         headerHoleder.tvStickyWeek.setText(week);
         //Logger.e(generateHeaderId(position)+ "  -- > " + position);
         float sumMoney = 0f;
         for (int i = pos; i < mAccountList.size(); i++) {
-            Date date = mAccountList.get(i).getTime();
+//            Date date = mAccountList.get(i).getTime();
+            LocalDateTime dateTime = mAccountList.get(i).getDateTime();
             //从当前day往后循环判断，如果day相同则表示为同一天，否则跳出循环
-            if (getDay(date) == generateHeaderId(pos)) {
+            if (dateTime.getDayOfMonth() == generateHeaderId(pos)) {
                 sumMoney += mAccountList.get(i).getCount();
             } else
                 break;
