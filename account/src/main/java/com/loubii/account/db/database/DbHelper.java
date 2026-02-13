@@ -12,8 +12,7 @@ import com.loubii.account.util.TimeUtil;
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -95,21 +94,21 @@ public class DbHelper {
     /**
      *
      * @param accountType 1:支出 ， 2收入
-     * @param startTime
-     * @param endTime
+     * @param startDateTime
+     * @param endDateTime
      * @return
      */
-    public List<AccountModel> getAccountList(int accountType, Date startTime, Date endTime) {
+    public List<AccountModel> getAccountList(int accountType, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         QueryBuilder<AccountModel> builder = author().queryBuilder()
-                .where(AccountModelDao.Properties.Time.between(startTime, endTime));
+                .where(AccountModelDao.Properties.DateTime.between(startDateTime,endDateTime));
         if (accountType != (Extra.ACCOUNT_TYPE_ALL))
             builder.where(AccountModelDao.Properties.OutIntype.eq(accountType));
-        builder.orderAsc(AccountModelDao.Properties.Time);
+        builder.orderAsc(AccountModelDao.Properties.DateTime);
         return builder.list();
 //        List<AccountModel> accountList = author().queryBuilder()
-//                .where(AccountModelDao.Properties.Time.between
+//                .where(AccountModelDao.Properties.DateTime.between
 //                        (startTime, endTime), AccountModelDao.Properties.OutIntype.eq(accountType))
-//                .orderAsc(AccountModelDao.Properties.Time)
+//                .orderAsc(AccountModelDao.Properties.DateTime)
 ////                .offset(offSet * Config.LIST_LOAD_NUM)
 ////                .limit(Config.LIST_LOAD_NUM)
 //                .list();
@@ -120,26 +119,26 @@ public class DbHelper {
      *
      * @param accountType 1:支出 ， 2收入
      * @param detailType 具体类型（餐饮等）
-     * @param startTime
-     * @param endTime
+     * @param startDateTime
+     * @param endDateTime
      * @return
      */
-    public List<AccountModel> getAccountList(int accountType, String detailType, Date startTime, Date endTime) {
+    public List<AccountModel> getAccountList(int accountType, String detailType, LocalDateTime startDateTime, LocalDateTime endDateTime) {
 
         QueryBuilder<AccountModel> builder = author().queryBuilder()
-                .where(AccountModelDao.Properties.Time.between(startTime, endTime),
+                .where(AccountModelDao.Properties.DateTime.between(startDateTime, endDateTime),
                         AccountModelDao.Properties.OutIntype.eq(accountType));
         if ( !detailType.equals(Extra.DETAIL_TYPE_DEFAULT))
             builder.where(AccountModelDao.Properties.DetailType.eq(detailType));
-        builder.orderAsc(AccountModelDao.Properties.Time);
+        builder.orderAsc(AccountModelDao.Properties.DateTime);
         //List<AccountModel> accountList  .list();
         return builder.list();
 
 //        List<AccountModel> accountList = author().queryBuilder()
-//                .where(AccountModelDao.Properties.Time.between(startTime, endTime),
+//                .where(AccountModelDao.Properties.DateTime.between(startTime, endTime),
 //                        AccountModelDao.Properties.OutIntype.eq(accountType),
 //                        AccountModelDao.Properties.DetailType.eq(detailType))
-//                .orderAsc(AccountModelDao.Properties.Time)
+//                .orderAsc(AccountModelDao.Properties.DateTime)
 ////                .offset(offSet * Config.LIST_LOAD_NUM)
 ////                .limit(Config.LIST_LOAD_NUM)
 //                .list();
@@ -149,48 +148,38 @@ public class DbHelper {
     /**
      * 最小时间
      */
-    public Date getMinDate() {
+    public LocalDateTime getMinDateTime() {
         List<AccountModel> accountList = author().queryBuilder()
-                .orderAsc(AccountModelDao.Properties.Time)
+                .orderAsc(AccountModelDao.Properties.DateTime)
                 .offset(0)
                 .limit(1)
                 .list();
         if (accountList != null && accountList.size() > 0) {
-            Date date = accountList.get(0).getTime();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            int year = calendar.get(Calendar.YEAR);
-            if (year == Calendar.getInstance().get(Calendar.YEAR))
-                return date;
-            else
-                return TimeUtil.getBeginDayOfYear(new Date());
-        } else
-            return null;
-
+            LocalDateTime dateTime = accountList.get(0).getDateTime();
+            int year = dateTime.getYear();
+            if (year == LocalDateTime.now().getYear())
+                return dateTime;
+        }
+        return null;
     }
 
 
     /**
      * 最大时间
      */
-    public Date getMaxDate() {
+    public LocalDateTime getMaxDateTime() {
         List<AccountModel> accountList = author().queryBuilder()
-                .orderDesc(AccountModelDao.Properties.Time)
+                .orderDesc(AccountModelDao.Properties.DateTime)
                 .offset(0)
                 .limit(1)
                 .list();
         if (accountList != null && accountList.size() > 0) {
-            Date date = accountList.get(0).getTime();
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            int year = calendar.get(Calendar.YEAR);
-            if (year == Calendar.getInstance().get(Calendar.YEAR))
-                return date;
-            else
-                return null;
-        } else
-            return null;
-
+            LocalDateTime dateTime = accountList.get(0).getDateTime();
+            int year = dateTime.getYear();
+            if (year == LocalDateTime.now().getYear())
+                return dateTime;
+        }
+        return null;
     }
 
 

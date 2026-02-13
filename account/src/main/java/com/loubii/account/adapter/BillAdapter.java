@@ -14,6 +14,9 @@ import com.loubii.account.R;
 import com.loubii.account.bean.AccountModel;
 import com.loubii.account.util.TimeUtil;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalField;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -59,14 +62,15 @@ public class BillAdapter extends UltimateViewAdapter {
     @Override
     public long generateHeaderId(int position) {
         //Logger.e(calendar.get(Calendar.DAY_OF_MONTH) + "--->" + position);
-        return getDay(mAccountList.get(position).getTime()) ;
+        return mAccountList.get(position).getDateTime().getDayOfMonth();
+//        return getDay(mAccountList.get(position).getDateTime()) ;
     }
 
-    private long getDay(Date time) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(time);
-        return calendar.get(Calendar.DAY_OF_MONTH);
-    }
+//    private long getDay(Date time) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(time);
+//        return calendar.get(Calendar.DAY_OF_MONTH);
+//    }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -103,17 +107,19 @@ public class BillAdapter extends UltimateViewAdapter {
 
         //Logger.e("header: " + getItemViewType(position));
         HeaderHoleder headerHoleder = (HeaderHoleder) holder;
-        String time = TimeUtil.date2String(mAccountList.get(position).getTime(), "MM月dd日");
-        String week = TimeUtil.getWeekByDate(mAccountList.get(position).getTime());
-        headerHoleder.tvStickyDay.setText(time);
+        String strDatetime = mAccountList.get(position).getDateTime().format(DateTimeFormatter.ofPattern("MM月dd日"));
+//        String time = TimeUtil.date2String(mAccountList.get(position).getTime(), "MM月dd日");
+        String week = TimeUtil.getWeekByDate(mAccountList.get(position).getDateTime().getDayOfWeek().getValue());
+        headerHoleder.tvStickyDay.setText(strDatetime);
         headerHoleder.tvStickyWeek.setText(week);
         //Logger.e(generateHeaderId(position)+ "  -- > " + position);
         float sumExpend = 0f;
         float sumIncome = 0f;
         for (int i = position; i < mAccountList.size(); i++) {
-            Date date = mAccountList.get(i).getTime();
+            LocalDateTime dateTime = mAccountList.get(i).getDateTime();
             //从当前day往后循环判断，如果day相同则表示为同一天，否则跳出循环
-            if (getDay(date) == generateHeaderId(position)) {
+            if (dateTime.getDayOfMonth() == generateHeaderId(position)){
+//            if (getDay(date) == generateHeaderId(position)) {
                 int type = mAccountList.get(i).getOutIntype();
                 if (type == 1) //支出
                     sumExpend += mAccountList.get(i).getCount();
